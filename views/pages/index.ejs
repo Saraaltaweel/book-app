@@ -3,14 +3,16 @@
 
 <head>
   <title>Book Collection</title>
-  <link rel="stylesheet" href="styles/reset.css">
-  <link rel="stylesheet" href="styles/base.css">
+  
 
 
 </head>
 
 <body>
+  <%- include('../layout/header') %>
+
   <main>
+    <h3>Total books = <%=results.length%></h3>
     <h4>My Book Collection</h4>
     <ul>
       <% if (results.length) { %>
@@ -20,16 +22,11 @@
               <%= data.title %>
             </h4>
             <p>
-              <%= data.auther %>
+              <%= data.author %>
             </p>
-            <img src=<%= data.placeholderImage %> alt="">
-            <p>
-              <%= data.isbn %>
-            </p>
-            <p>
-              <%= data.description %>
-            </p>
-            
+            <img src=<%= data.image_url %> alt="">
+         
+            <a href="/books/<%= data.id %>">More info</a>
           </li>
           <% }); %>
             <% } else { %>

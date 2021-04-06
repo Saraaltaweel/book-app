@@ -2,25 +2,37 @@
 <html lang="en">
 
 <head>
-  <title>Book Collection</title>
-  <link rel="stylesheet" href="styles/reset.css">
-  <link rel="stylesheet" href="styles/base.css">
+  <%- include('../../layout/head') %>
 </head>
 
 <body>
+  <header>
+    <%- include('../../layout/header') %>
+  </header>
   <main>
     <% searchResults.forEach(book=> {%>
       <p>
         <%= book.title %>
       </p>
       <p>
-          <%= book.authors %>
+          <%= book.author %>
       </p>
-      <img src=<%= book.placeholderImage %> alt="">
+      <img src=<%= book.image_url %> >
+      <p>
+        <%= book.isbn %>
+    </p>
       <p>
         <%= book.description %>
     </p>
+    <form action="/savebooks" method="post">
+      <input type="hidden" name="title" value="<%=book.title %>">
+      <input type="hidden" name="author" value="<%=book.author %>" >
+      <input type="hidden" name="description" value="<%=book.description %>">
+      <input type="hidden" name="image_url" value="<%=book.image_url %>" >
+      <input type="hidden" name="isbn" value="<%=book.isbn %>" >
+      <input type="submit" name="save book" >
 
+    </form>
       <% }) %>
 
   </main>
