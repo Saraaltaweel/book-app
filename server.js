@@ -6,8 +6,11 @@ const express = require('express');
 const superagent = require('superagent');
 require('dotenv').config();
 const app = express();
+const methodOverride = require('method-override');
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static( "./public"));
+app.use(methodOverride('_method'));
 const PORT = process.env.PORT || 4000;
 const pg = require('pg');
 const client = new pg.Client(process.env.DATABASE_URL);
@@ -18,6 +21,9 @@ app.get('/', renderHomePage);
 app.post('/searches', createSearch);
 app.post('/savebooks', getSingleBook);
 app.get('/books/:id',getBook);
+
+app.delete('/books/:id',deleteBook);
+app.put('/books/:id', updateBook);
 
 
 
@@ -84,6 +90,28 @@ res.render('pages/books/detail',{result:data.rows[0]})
 })
 }
 
+function deleteBook(req,res){
+  const Id = req.params.id;
+  const safeValues = [Id];
+  const deleteQuery = 'DELETE FROM books WHERE id=$1';
+
+  client.query(deleteQuery, safeValues).then(() => {
+    res.redirect('/');
+  })
+}
+
+function updateBook(req,res){
+  const Id = req.params.id;
+  const {title, author, isbn, description,image_url}=req.body;
+  const safeValues = [title, author, isbn, description,image_url,Id];
+
+  const updateQuery = 'UPDATE books SET title=$1, author=$2, isbn=$3, description=$4, image_url=$5 WHERE id=$6'
+
+  client.query(updateQuery, safeValues).then((result) => {
+    console.log(result)
+    res.redirect(`/books/${Id}`);
+  })
+}
 
 function createSearch(request, response) {
   let url = `https://www.googleapis.com/books/v1/volumes`;
