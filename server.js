@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 4000;
 app.use(express.urlencoded());
 app.set('view engine', 'ejs');
 
-app.get('/hello', renderHomePage);
+app.get('/', renderHomePage);
 app.get('/searches/new', showForm);
 app.post('/searches', createSearch);
 
