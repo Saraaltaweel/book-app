@@ -28,24 +28,8 @@
       <input type="hidden" value="<%= result.id %>">
       <input type="submit" value="Delete book">
     </form>
-    <form action="/books/<%= result.id %>?_method=PUT" method="POST">
-      <fieldset>
-        <legend>Update book</legend>
-        book title
-        <input type="text" name="title" value="<%= result.title %>">
-        book author
-        <input type="text" name="author" value="<%=result.author %>">
-        book isbn
-        <input type="text" name="isbn" value="<%= result.isbn %>">
-        book description
-        <br>
-        <textarea cols="30" rows="10" name="description">
-          <%= result.description %>
-        </textarea>
-        <br>
-        <input type="submit" value="Update book">
-      </fieldset>
-    </form>
+    <button><a href="/show/<%=result.id %>">Update</a></button>
+
   </main>
 </body>
 
